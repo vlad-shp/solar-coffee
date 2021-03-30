@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SolarCoffee.Data;
+using SolarCoffee.Services.Customer;
+using SolarCoffee.Services.Inventory;
+using SolarCoffee.Services.Order;
 using SolarCoffee.Services.Product;
 
 namespace SolarCoffee.Web
@@ -33,7 +36,7 @@ namespace SolarCoffee.Web
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SolarCoffee.Web", Version = "v1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "SolarCoffee.Web", Version = "v2" });
             });
 
             services.AddDbContext<SolarDbContext>(opts =>
@@ -43,6 +46,9 @@ namespace SolarCoffee.Web
             });
 
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IInventoryService, InventoryService>();
+            services.AddTransient<IOrderService, IOrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +58,7 @@ namespace SolarCoffee.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SolarCoffee.Web v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "SolarCoffee.Web v2"));
             }
 
             app.UseHttpsRedirection();
