@@ -48,7 +48,7 @@ namespace SolarCoffee.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerAddresses",
+                name: "CustomerAddress",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -191,7 +191,7 @@ namespace SolarCoffee.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Customers_CustomerAddresses_PrimaryAddressId",
                         column: x => x.PrimaryAddressId,
-                        principalTable: "CustomerAddresses",
+                        principalTable: "CustomerAddress",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -266,7 +266,7 @@ namespace SolarCoffee.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "CustomerAddresses");
+                name: "CustomerAddress");
         }
     }
 }

@@ -13,11 +13,11 @@ namespace SolarCoffee.Services.Order
     public class OrderService:IOrderService
     {
         private readonly SolarDbContext _db;
-        private readonly Logger<OrderService> _logger;
+        private readonly ILogger<OrderService> _logger;
         private readonly IProductService _productService;
         private readonly IInventoryService _inventoryService;
 
-        public OrderService(SolarDbContext dbContext, Logger<OrderService> logger, IProductService productService, IInventoryService inventoryService)
+        public OrderService(SolarDbContext dbContext, ILogger<OrderService> logger, IProductService productService, IInventoryService inventoryService)
         {
             _db = dbContext;
             _logger = logger;
@@ -122,7 +122,7 @@ namespace SolarCoffee.Services.Order
                     Data = false,
                     Message = ex.StackTrace,
                     Time = now
-                };
+                }; 
             }
         }
     }

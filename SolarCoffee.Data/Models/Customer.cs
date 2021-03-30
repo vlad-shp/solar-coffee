@@ -9,6 +9,6 @@ namespace SolarCoffee.Data.Models
         public DateTime UpdatedOn { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public CustomerAddresses PrimaryAddress { get; set; }
+        public CustomerAddress PrimaryAddress { get; set; }
     }
 }

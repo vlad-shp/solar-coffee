@@ -43,12 +43,12 @@ namespace SolarCoffee.Web
             {
                 opts.EnableDetailedErrors();
                 opts.UseNpgsql(Configuration.GetConnectionString("solar.dev"));
-            });
+            }); 
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IInventoryService, InventoryService>();
-            services.AddTransient<IOrderService, IOrderService>();
+            services.AddTransient<IOrderService, OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

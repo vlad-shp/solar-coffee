@@ -242,7 +242,7 @@ namespace SolarCoffee.Data.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("SolarCoffee.Data.Models.CustomerAddresses", b =>
+            modelBuilder.Entity("SolarCoffee.Data.Models.CustomerAddress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace SolarCoffee.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerAddresses");
+                    b.ToTable("CustomerAddress");
                 });
 
             modelBuilder.Entity("SolarCoffee.Data.Models.Product", b =>
@@ -475,7 +475,7 @@ namespace SolarCoffee.Data.Migrations
 
             modelBuilder.Entity("SolarCoffee.Data.Models.Customer", b =>
                 {
-                    b.HasOne("SolarCoffee.Data.Models.CustomerAddresses", "PrimaryAddress")
+                    b.HasOne("SolarCoffee.Data.Models.CustomerAddress", "PrimaryAddress")
                         .WithMany()
                         .HasForeignKey("PrimaryAddressId");
 
