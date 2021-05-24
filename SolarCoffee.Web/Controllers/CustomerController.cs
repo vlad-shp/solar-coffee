@@ -2,6 +2,8 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SolarCoffee.Data.Models;
+using SolarCoffee.Services;
 using SolarCoffee.Services.Customer;
 using SolarCoffee.Web.Serialization;
 using SolarCoffee.Web.ViewModels;
@@ -20,6 +22,8 @@ namespace SolarCoffee.Web.Controllers
         }
 
         [HttpPost("/api/customer")]
+        [Produces(typeof(Customer))]
+
         public ActionResult CreateCustomer([FromBody] CustomerModel customer)
         {
             _logger.LogInformation("Creating customer");
@@ -47,7 +51,9 @@ namespace SolarCoffee.Web.Controllers
             return Ok(customerModels);
         }
 
+        
         [HttpDelete("/api/customer/{id}")]
+        [Produces(typeof(ServiceResponse<bool>))]
         public ActionResult RemoveCustomer(int id)
         {
             _logger.LogInformation("Removing a customer");

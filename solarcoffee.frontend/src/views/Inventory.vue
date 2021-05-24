@@ -72,6 +72,9 @@ import SolarButton from "@/components/SolarButton.vue";
 import NewProductModal from "@/components/modals/NewProductModal.vue";
 import ShipmentModal from "@/components/modals/ShipmentModal.vue";
 import { IShipment } from "@/types/Shipment";
+import { InventoryService } from "@/services/inventory-service";
+
+const inventoryService = new InventoryService();
 
 @Component({
 	name: "Inventory",
@@ -81,38 +84,11 @@ export default class Inventory extends Vue {
 	isNewProductVisible = false;
 	isShipmentVisible = false;
 
-	inventory: IProductInventory[] = [
-		{
-			id: 1,
-			product: {
-				id: 1,
-				name: "Some Product",
-				description: "test",
-				price: 100,
-				createdOn: new Date(),
-				updatedOn: new Date(),
-				isTaxable: true,
-				isArchived: false
-			},
-			quantityOnHand: 100,
-			idealQuantity: 100
-		},
-		{
-			id: 2,
-			product: {
-				id: 2,
-				name: "Some Product 2",
-				description: "test2",
-				price: 500,
-				createdOn: new Date(),
-				updatedOn: new Date(),
-				isTaxable: false,
-				isArchived: false
-			},
-			quantityOnHand: 50,
-			idealQuantity: 20
-		}
-	];
+	inventory: IProductInventory[] = [];
+
+	async created() {
+		await this.initialize();
+	}
 
 	showNewProductModal() {
 		this.isNewProductVisible = true;
@@ -143,6 +119,10 @@ export default class Inventory extends Vue {
 		if (product) {
 			this.$set(product, "quantityOnHand", shipment.adjustment);
 		}
+	}
+
+	async initialize() {
+		this.inventory = await inventoryService.getInventory();
 	}
 }
 </script>

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using NSwag;
 using SolarCoffee.Data;
 using SolarCoffee.Services.Customer;
 using SolarCoffee.Services.Inventory;
@@ -34,10 +34,7 @@ namespace SolarCoffee.Web
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v2", new OpenApiInfo { Title = "SolarCoffee.Web", Version = "v2" });
-            });
+            services.AddSwaggerDocument();
 
             services.AddDbContext<SolarDbContext>(opts =>
             {
@@ -57,8 +54,8 @@ namespace SolarCoffee.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "SolarCoffee.Web v2"));
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
 
             app.UseHttpsRedirection();
