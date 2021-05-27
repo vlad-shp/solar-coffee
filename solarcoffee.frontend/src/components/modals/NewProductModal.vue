@@ -40,14 +40,14 @@
 		<template v-slot:footer>
 			<solar-button
 				type="button"
-				@click.native="save"
+				@buttonClick="save"
 				aria-lable="save new item"
 			>
 				Save Product
 			</solar-button>
 			<solar-button
 				type="button"
-				@click.native="$emit('close')"
+				@buttonClick="$emit('close')"
 				aria-lable="close modal"
 			>
 				Close
