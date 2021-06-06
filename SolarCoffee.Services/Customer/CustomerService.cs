@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SolarCoffee.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using SolarCoffee.Data;
 
 namespace SolarCoffee.Services.Customer
 {
-    public class CustomerService:ICustomerService
+    public class CustomerService : ICustomerService
     {
         private readonly SolarDbContext _db;
 

@@ -10,6 +10,10 @@ Vue.filter("humanizeDate", function(date: Date) {
 	return moment(date).format("MMMM Do YYYY");
 });
 
+Vue.filter("price", function(price: number) {
+	return price.toFixed(2);
+});
+
 new Vue({
 	router,
 	store,

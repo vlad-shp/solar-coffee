@@ -20,6 +20,14 @@
 					/>
 				</li>
 				<li>
+					<label for="postalCode">Postal Code</label>
+					<input
+						type="text"
+						id="postalCode"
+						v-model="customer.primaryAddress.postalCode"
+					/>
+				</li>
+				<li>
 					<label for="addressLine1">Address line 1</label>
 					<input
 						type="text"
@@ -116,4 +124,28 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.newCustomer {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	input {
+		width: 80%;
+		height: 1.8rem;
+		margin: 0.8rem 2rem 0.8rem 0.8rem;
+		font-size: 1.1rem;
+		line-height: 1.3rem;
+		padding: 0.2rem;
+		color: #555;
+	}
+
+	label {
+		font-weight: bold;
+		margin: 0.8rem;
+		display: block;
+	}
+}
+</style>

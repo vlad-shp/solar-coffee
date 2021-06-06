@@ -2,14 +2,13 @@
 using Microsoft.Extensions.Logging;
 using SolarCoffee.Services.Customer;
 using SolarCoffee.Services.Order;
-using SolarCoffee.Services.Product;
 using SolarCoffee.Web.Serialization;
 using SolarCoffee.Web.ViewModels;
 
 namespace SolarCoffee.Web.Controllers
 {
     [ApiController]
-    public class OrderController:ControllerBase
+    public class OrderController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IOrderService _orderService;
@@ -25,6 +24,11 @@ namespace SolarCoffee.Web.Controllers
         [HttpPost("/api/invoice")]
         public ActionResult GenerateNewOrder([FromBody] InvoiceModel invoice)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _logger.LogInformation("Generating invoice");
 
             var order = OrderMapper.SerializeInvoiceToOrder(invoice);
@@ -41,7 +45,7 @@ namespace SolarCoffee.Web.Controllers
             var orderModels = OrderMapper.SerializingOrdersToViewModels(orders);
             return Ok(orderModels);
         }
-        
+
         [HttpPatch("/api/order/complete/{id}")]
         public ActionResult MarkOrderComplete(int id)
         {

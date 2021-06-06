@@ -21,7 +21,4 @@ export class InventoryService {
 		);
 		return result.data;
 	}
-	$ЩЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕ_НЕ_ВМЕРЛИ_УКРЪНИ_НЫ_СЛАВА_НЫ_ВОЛЯ() {
-		return 5;
-	}
 }

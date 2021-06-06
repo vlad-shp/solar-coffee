@@ -14,7 +14,7 @@ namespace SolarCoffee.Web.Serialization
         /// <param name="customer"></param>
         /// <returns></returns>
         public static CustomerModel SerializeCustomer(Customer customer)
-        { 
+        {
             return new CustomerModel()
             {
                 Id = customer.Id,

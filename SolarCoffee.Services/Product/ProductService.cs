@@ -1,12 +1,12 @@
-﻿using System;
+﻿using SolarCoffee.Data;
+using SolarCoffee.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SolarCoffee.Data;
-using SolarCoffee.Data.Models;
 
 namespace SolarCoffee.Services.Product
 {
-    public class ProductService:IProductService
+    public class ProductService : IProductService
     {
         private readonly SolarDbContext _db;
 
@@ -43,18 +43,25 @@ namespace SolarCoffee.Services.Product
         {
             try
             {
+                
                 _db.Products.Add(product);
+
+                
+
 
                 var newInventory = new ProductInventory
                 {
+                    Id = 0,
                     Product = product,
                     QuantityOnHand = 0,
-                    IdealQuantity = 10
+                    IdealQuantity = 10,
+                    CreatedOn = DateTime.Now,
+                    UpdatedOn = DateTime.Now
                 };
 
-                _db.SaveChanges();
-
                 _db.ProductInventories.Add(newInventory);
+
+                _db.SaveChanges();
 
                 return new ServiceResponse<Data.Models.Product>
                 {

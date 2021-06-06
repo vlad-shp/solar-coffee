@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SolarCoffee.Data;
 using SolarCoffee.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SolarCoffee.Services.Inventory
 {
-    public class InventoryService:IInventoryService
+    public class InventoryService : IInventoryService
     {
         private readonly SolarDbContext _db;
         private readonly ILogger<InventoryService> _logger;
@@ -28,6 +29,14 @@ namespace SolarCoffee.Services.Inventory
                 .Include(pi => pi.Product)
                 .Where(pi => !pi.Product.IsArchived)
                 .ToList();
+        }
+
+        public async Task<List<ProductInventory>> GetCurrentInventoryAsync()
+        {
+            return await _db.ProductInventories
+                .Include(pi => pi.Product)
+                .Where(pi => !pi.Product.IsArchived)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -86,7 +95,7 @@ namespace SolarCoffee.Services.Inventory
         /// <returns></returns>
         public ProductInventory GetProductById(int productId)
         {
-            return _db.ProductInventories.Include(pi=> pi.Product).FirstOrDefault(pi=>pi.Product.Id==productId);
+            return _db.ProductInventories.Include(pi => pi.Product).FirstOrDefault(pi => pi.Product.Id == productId);
         }
 
         /// <summary>

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SolarCoffee.Data;
 using SolarCoffee.Data.Models;
 using SolarCoffee.Services.Inventory;
 using SolarCoffee.Services.Product;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SolarCoffee.Services.Order
 {
-    public class OrderService:IOrderService
+    public class OrderService : IOrderService
     {
         private readonly SolarDbContext _db;
         private readonly ILogger<OrderService> _logger;
@@ -33,9 +33,9 @@ namespace SolarCoffee.Services.Order
         {
             return _db.SalesOrders
                 .Include(salesOrder => salesOrder.Customer)
-                    .ThenInclude(customer=> customer.PrimaryAddress)
-                .Include(salesOrder=> salesOrder.SalesOrderItems)
-                    .ThenInclude(salesOrderItem=> salesOrderItem.Product)
+                    .ThenInclude(customer => customer.PrimaryAddress)
+                .Include(salesOrder => salesOrder.SalesOrderItems)
+                    .ThenInclude(salesOrderItem => salesOrderItem.Product)
                 .ToList();
         }
 
@@ -122,7 +122,7 @@ namespace SolarCoffee.Services.Order
                     Data = false,
                     Message = ex.StackTrace,
                     Time = now
-                }; 
+                };
             }
         }
     }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SolarCoffee.Data.Models;
+using SolarCoffee.Web.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SolarCoffee.Data.Models;
-using SolarCoffee.Web.ViewModels;
 
 namespace SolarCoffee.Web.Serialization
 {
@@ -18,11 +18,11 @@ namespace SolarCoffee.Web.Serialization
         /// <returns></returns>
         public static SalesOrder SerializeInvoiceToOrder(InvoiceModel invoice)
         {
-            
+
             var salesOrderItem = invoice.LineItems
                 .Select(item => new SalesOrderItem
                 {
-                    Id=item.Id,
+                    Id = item.Id,
                     Quantity = item.Quantity,
                     Product = ProductMapper.SerializeProductModel(item.Product)
                 })
@@ -64,12 +64,12 @@ namespace SolarCoffee.Web.Serialization
         {
             return orderItems.Select(item => new SalesOrderItemModel
             {
-                Id=item.Id,
+                Id = item.Id,
                 Quantity = item.Quantity,
                 Product = ProductMapper.SerializeProductModel(item.Product)
             }).ToList();
         }
     }
 
-    
+
 }

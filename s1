@@ -1,0 +1,77 @@
+[33mcommit 3bd8234dedced098283990572cf884a93076f3c8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Thu May 27 19:39:15 2021 +0300
+
+    created customer view
+
+[33mcommit 48b4eb0d9251b0806092a7103e9dbecf3294ef0b[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Mon May 24 23:30:05 2021 +0300
+
+    Created Inventory Service
+
+[33mcommit 3d42d88107f618ca909f2d64b680815552f4e975[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Mon May 24 22:03:49 2021 +0300
+
+    Added modal windows
+
+[33mcommit 4dfe29e53b5a9938bb51d285cc122b71e4c0d8df[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Tue Mar 30 17:57:34 2021 +0300
+
+    #End of Back End xD
+
+[33mcommit 676f7a2e43d73877e3bfc888ba6731110a7874e9[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Tue Mar 30 17:55:49 2021 +0300
+
+    Create view models, update InventoryController
+
+[33mcommit 5b06325c761bccbd1d88c181e4721e211f6ffa60[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Tue Mar 30 12:29:15 2021 +0300
+
+    #Continuing Service Layer Development
+
+[33mcommit 097e9bdd20d1ef8e81e550f5aae80ea7be061d21[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Tue Mar 30 12:29:01 2021 +0300
+
+    #Continuing Service Layer Development
+
+[33mcommit 3f4b88a31c8d04d05bff277caf9be7f016d1e21f[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Tue Mar 30 02:40:21 2021 +0300
+
+    Implement data mapper
+
+[33mcommit 04ee7220423a791f6988780f448d8acbbf3a4026[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Mon Mar 29 22:19:43 2021 +0300
+
+    Created Product controller & services
+
+[33mcommit 9a31b74aea3c0ebcaad8ec3d0267f2d9427860db[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Mon Mar 29 21:27:24 2021 +0300
+
+    Add entity models
+
+[33mcommit d0b380f8dcd8240283a9acb60f1811433ba51203[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Mon Mar 29 20:47:26 2021 +0300
+
+    Add Makefile, migrations
+
+[33mcommit 7a9ada33e655eab177cd1147c083cb16abb1afb9[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Mon Mar 29 20:38:20 2021 +0300
+
+    Added database layer, created a migration
+
+[33mcommit 791e42d009878763952c90f5cf33c6acffefbb4f[m
+Author: Vladyslav Shpychko <58635862+vlad-shp@users.noreply.github.com>
+Date:   Mon Mar 1 21:28:40 2021 +0200
+
+    Initial commit

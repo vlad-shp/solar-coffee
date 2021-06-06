@@ -1,9 +1,10 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SolarCoffee.Services.Inventory;
 using SolarCoffee.Web.Serialization;
 using SolarCoffee.Web.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SolarCoffee.Web.Controllers
 {
@@ -22,13 +23,13 @@ namespace SolarCoffee.Web.Controllers
         }
 
         [HttpGet("/api/inventory")]
-        public ActionResult GetCurrentInventory()
+        public async Task<IActionResult> GetCurrentInventory()
         {
             _logger.LogInformation("Getting all inventory ...");
-            var inventory = _inventoryService.GetCurrentInventory()
+            var inventory = (await _inventoryService.GetCurrentInventoryAsync())
                 .Select(pi => new ProductInventoryModel
                 {
-                    Id=pi.Id,
+                    Id = pi.Id,
                     Product = ProductMapper.SerializeProductModel(pi.Product),
                     IdealQuantity = pi.IdealQuantity,
                     QuantityOnHand = pi.QuantityOnHand
@@ -39,9 +40,31 @@ namespace SolarCoffee.Web.Controllers
             return Ok(inventory);
         }
 
+        //public ActionResult GetCurrentInventory()
+        //{
+        //    _logger.LogInformation("Getting all inventory ...");
+        //    var inventory = _inventoryService.GetCurrentInventory()
+        //        .Select(pi => new ProductInventoryModel
+        //        {
+        //            Id = pi.Id,
+        //            Product = ProductMapper.SerializeProductModel(pi.Product),
+        //            IdealQuantity = pi.IdealQuantity,
+        //            QuantityOnHand = pi.QuantityOnHand
+        //        })
+        //        .OrderBy(inv => inv.Product.Name)
+        //        .ToList();
+
+        //    return Ok(inventory);
+        //}
+
         [HttpPatch("/api/inventory")]
         public ActionResult UpdateInventory([FromBody] ShipmentModel shipment)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _logger.LogInformation($"Updating inventory for {shipment.ProductId} -" +
                                    $"Adjustment {shipment.Adjustment}");
 

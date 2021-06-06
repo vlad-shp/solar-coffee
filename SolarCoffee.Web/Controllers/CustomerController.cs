@@ -1,16 +1,17 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SolarCoffee.Data.Models;
 using SolarCoffee.Services;
 using SolarCoffee.Services.Customer;
 using SolarCoffee.Web.Serialization;
 using SolarCoffee.Web.ViewModels;
+using System;
+using System.Linq;
+using System.Net;
 
 namespace SolarCoffee.Web.Controllers
 {
-    public class CustomerController:ControllerBase
+    public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerService _customerService;
@@ -22,14 +23,19 @@ namespace SolarCoffee.Web.Controllers
         }
 
         [HttpPost("/api/customer")]
-        [Produces(typeof(Customer))]
+        [ProducesResponseType(typeof(Customer),(int)HttpStatusCode.OK)]
 
         public ActionResult CreateCustomer([FromBody] CustomerModel customer)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _logger.LogInformation("Creating customer");
 
-            customer.CreatedOn=customer.UpdatedOn=DateTime.UtcNow;
-            
+            customer.CreatedOn = customer.UpdatedOn = DateTime.UtcNow;
+
             var customerData = CustomerMapper.SerializeCustomer(customer);
             var newCustomer = _customerService.CreateCustomer(customerData);
 
@@ -44,14 +50,14 @@ namespace SolarCoffee.Web.Controllers
 
             var customerModels = customer
                 .Select(CustomerMapper.SerializeCustomer)
-                .OrderByDescending(customerModel=>customerModel.CreatedOn)
+                .OrderByDescending(customerModel => customerModel.CreatedOn)
                 .ToList();
 
 
             return Ok(customerModels);
         }
 
-        
+
         [HttpDelete("/api/customer/{id}")]
         [Produces(typeof(ServiceResponse<bool>))]
         public ActionResult RemoveCustomer(int id)

@@ -281,7 +281,7 @@ namespace SolarCoffee.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerAddress");
+                    b.ToTable("CustomerAddresses");
                 });
 
             modelBuilder.Entity("SolarCoffee.Data.Models.Product", b =>

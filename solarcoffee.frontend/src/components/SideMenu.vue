@@ -26,7 +26,7 @@
 		<solar-button
 			id="menuInvoice"
 			is-full-width
-			@buttonClick="goToRoute('/ivoice/new')"
+			@buttonClick="goToRoute('/invoice/new')"
 		>
 			New Invoice
 		</solar-button>

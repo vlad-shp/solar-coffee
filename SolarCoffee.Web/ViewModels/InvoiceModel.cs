@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using SolarCoffee.Data.Models;
 
 namespace SolarCoffee.Web.ViewModels
 {
