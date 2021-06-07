@@ -10,14 +10,14 @@
 			<div v-if="customers.length" class="invoice-step-detail">
 				<label for="customer">Customer:</label>
 				<select
-					v-model="selectedCustomerId"
+					v-model="selectedCustomer"
 					class="invoiceCustomers"
 					id="customer"
 				>
 					<option disabled value="">Please select a Customer</option>
 					<option
 						v-for="cust in customers"
-						:value="cust.id"
+						:value="cust"
 						:key="cust.id"
 						>{{ cust.firstName + " " + cust.lastName }}</option
 					>
@@ -105,7 +105,113 @@
 				</table>
 			</div>
 		</div>
-		<div class="invoice-step" v-if="invoiceStep === 3"></div>
+		<div class="invoice-step" v-if="invoiceStep === 3">
+			<h2>Step 3: Review and Submit</h2>
+			<solar-button @buttonClick="submitInvoice"
+				>Submit Invoice</solar-button
+			>
+			<hr />
+
+			<div class="invoice-step-detail" id="invoice" ref="invoice">
+				<div class="invoice-logo">
+					<img
+						id="imgLogo"
+						alt="Solar coffee logo"
+						src="../assets/images/logo.png"
+					/>
+					<h3>1721 Solar Lane</h3>
+					<h3>San Carta, CQ 29122</h3>
+					<h3>CIO</h3>
+
+					<div class="invoice-order-list" v-if="lineItems.length">
+						<div class="invoice-header">
+							<h3>Invoice: {{ new Date() | humanizeDate }}</h3>
+							<h3>
+								Customer:
+								{{
+									this.selectedCustomer.firstName +
+										" " +
+										selectedCustomer.lastName
+								}}
+							</h3>
+							<h3>
+								Adress 1:{{
+									this.selectedCustomer.primaryAddress
+										.addressLine1
+								}}
+							</h3>
+							<h3
+								v-if="
+									this.selectedCustomer.primaryAddress
+										.addressLine2
+								"
+							>
+								Adress 2:{{
+									this.selectedCustomer.primaryAddress
+										.addressLine2
+								}}
+							</h3>
+							<h3>
+								{{ this.selectedCustomer.primaryAddress.city }},
+								{{
+									this.selectedCustomer.primaryAddress.state
+								}},
+								{{
+									this.selectedCustomer.primaryAddress
+										.postalCode
+								}}
+							</h3>
+							<h3>
+								{{
+									this.selectedCustomer.primaryAddress.country
+								}}
+							</h3>
+						</div>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Product</th>
+									<th>Description</th>
+									<th>Qty.</th>
+									<th>Product</th>
+									<th>Subtotal</th>
+								</tr>
+							</thead>
+							<tr
+								v-for="lineItem in lineItems"
+								:key="`index_${lineItem.product.id}`"
+							>
+								<td>{{ lineItem.product.name }}</td>
+								<td>{{ lineItem.product.description }}</td>
+								<td>{{ lineItem.quantity }}</td>
+								<td>{{ lineItem.product.price }}</td>
+								<td>
+									{{
+										(lineItem.product.price *
+											lineItem.quantity)
+											| price
+									}}
+								</td>
+							</tr>
+							<tr>
+								<th colspan="4"></th>
+								<th>Grand total</th>
+							</tr>
+							<tfoot>
+								<tr>
+									<td colspan="4" class="due">
+										Balance due upon receipt:
+									</td>
+									<td class="price-final">
+										{{ runningTotal | price }}
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 		<hr />
 
 		<div class="invoice=steps-actions">
@@ -129,6 +235,8 @@ import { CustomerService } from "@/services/customer-service";
 import { InventoryService } from "@/services/inventory-service";
 import InvoiceService from "@/services/invoice-service";
 import SolarButton from "@/components/SolarButton.vue";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const customerService = new CustomerService();
 const inventoryService = new InventoryService();
@@ -160,13 +268,36 @@ export default class extends Vue {
 		quantity: 0
 	};
 
-	selectedCustomerId = 0;
+	selectedCustomer: ICustomer = {
+		firstName: "",
+		lastName: "",
+		createdOn: new Date(),
+		updateOn: new Date(),
+		id: 0,
+		primaryAddress: {
+			id: 0,
+			createdOn: new Date(),
+			updateOn: new Date(),
+			addressLine1: "",
+			addressLine2: "",
+			city: "",
+			state: "",
+			postalCode: "",
+			country: ""
+		}
+	};
 
 	get canGoPrev() {
 		return this.invoiceStep - 1 > 0;
 	}
 
 	get canGoNext() {
+		if (this.invoiceStep === 1) {
+			return this.selectedCustomer.id > 0;
+		}
+		if (this.invoiceStep === 2) {
+			return this.lineItems.length;
+		}
 		return this.invoiceStep + 1 < 4;
 	}
 
@@ -177,11 +308,41 @@ export default class extends Vue {
 		);
 	}
 
+	async submitInvoice(): Promise<void> {
+		this.invoice = {
+			customerId: this.selectedCustomer.id,
+			lineItems: this.lineItems,
+			createdOn: new Date(),
+			updatedOn: new Date()
+		};
+
+		await invoiceService.makeNewInvoice(this.invoice);
+
+		this.downloadPdf();
+
+		await this.$router.push("/orders");
+	}
+
+	downloadPdf() {
+		const pdf = new jsPDF("p", "pt", "a4", true);
+
+		const invoice = document.getElementById("invoice");
+
+		const width = this.$refs.invoice.clientWidth;
+		const height = this.$refs.invoice.clientHeight;
+
+		html2canvas(invoice!).then(canvas => {
+			const image = canvas.toDataURL("image/png");
+			pdf.addImage(image, "PNG", 0, 0, width * 0.55, heught * 0.55);
+			pdf.save("invoice");
+		});
+	}
+
 	async created() {
 		await this.initialize();
 	}
 
-	async initialize() {
+	async initialize(): Promise<void> {
 		this.customers = await customerService.getCustomers();
 		this.inventory = await inventoryService.getInventory();
 	}
@@ -202,7 +363,24 @@ export default class extends Vue {
 
 	startOver() {
 		this.invoiceStep = 1;
-		this.selectedCustomerId = 0;
+		this.selectedCustomer = {
+			firstName: "",
+			lastName: "",
+			createdOn: new Date(),
+			updateOn: new Date(),
+			id: 0,
+			primaryAddress: {
+				id: 0,
+				createdOn: new Date(),
+				updateOn: new Date(),
+				addressLine1: "",
+				addressLine2: "",
+				city: "",
+				state: "",
+				postalCode: "",
+				country: ""
+			}
+		};
 		this.newItem.product = {
 			createdOn: new Date(),
 			updatedOn: new Date(),
