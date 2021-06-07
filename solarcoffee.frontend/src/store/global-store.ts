@@ -4,11 +4,11 @@ import { IInventoryTimeline } from "@/types/InventoryGraph";
 import { InventoryService } from "@/services/inventory-service";
 
 class GlobalStore {
-	snapshotTimeLine: IInventoryTimeline = {
+	snapshotTimeline: IInventoryTimeline = {
 		productInventorySnapshots: [],
 		timeline: []
 	};
-	isTimelineBuilt = false;
+	timelineBuilt = false;
 }
 
 const state = new GlobalStore();
@@ -26,7 +26,7 @@ const actions = {
 		};
 
 		commit("SET_SNAPSHOT_TIMELINE", timeline);
-		commit("SET_IS_TIMELINE_BUILD", true);
+		commit("SET_TIMELINE_BUILT", true);
 	}
 };
 

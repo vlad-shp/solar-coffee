@@ -324,27 +324,27 @@ export default class CreateInvoice extends Vue {
 		await this.$router.push("/orders");
 	}
 
-	$refs!: {
-		invoice: HTMLElement;
-	};
-
 	downloadPdf() {
 		const pdf = new jsPDF("p", "px", "a4", true);
 
-		const invoice = document.getElementById("invoice")!;
+		const invoice = document.getElementById("invoice");
 
-		const width = this.$refs.invoice.clientWidth * 0.55;
-		const height = this.$refs.invoice.clientHeight * 0.55;
+		if (invoice) {
+			const width =
+				(this.$refs.invoice as HTMLDivElement).clientWidth * 0.55;
+			const height =
+				(this.$refs.invoice as HTMLDivElement).clientHeight * 0.55;
 
-		html2canvas(invoice).then(canvas => {
-			const image = canvas.toDataURL("image/png");
+			html2canvas(invoice).then(canvas => {
+				const image = canvas.toDataURL("image/png");
 
-			const pdfWidth = pdf.internal.pageSize.getWidth();
-			const pdfHeight = (height * pdfWidth) / width;
+				const pdfWidth = pdf.internal.pageSize.getWidth();
+				const pdfHeight = (height * pdfWidth) / width;
 
-			pdf.addImage(image, "PNG", 0, 0, pdfWidth, pdfHeight);
-			pdf.save("invoice");
-		});
+				pdf.addImage(image, "PNG", 0, 0, pdfWidth, pdfHeight);
+				pdf.save("invoice");
+			});
+		}
 	}
 
 	async created() {
@@ -420,7 +420,9 @@ export default class CreateInvoice extends Vue {
 			const lineItem = this.lineItems.find(
 				item => item.product.id === newItem.product.id
 			);
-			lineItem!.quantity += Number(newItem.quantity);
+			if (lineItem) {
+				lineItem.quantity += Number(newItem.quantity);
+			}
 		} else {
 			this.lineItems.push(newItem);
 		}
