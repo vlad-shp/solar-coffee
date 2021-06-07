@@ -173,7 +173,7 @@
 									<th>Product</th>
 									<th>Description</th>
 									<th>Qty.</th>
-									<th>Product</th>
+									<th>Price</th>
 									<th>Subtotal</th>
 								</tr>
 							</thead>
@@ -243,7 +243,7 @@ const inventoryService = new InventoryService();
 const invoiceService = new InvoiceService();
 
 @Component({ name: "CreateInvoice", components: { SolarButton } })
-export default class extends Vue {
+export default class CreateInvoice extends Vue {
 	invoiceStep = 1;
 	invoice: IInvoice = {
 		createdOn: new Date(),
@@ -316,6 +316,7 @@ export default class extends Vue {
 			updatedOn: new Date()
 		};
 
+		console.log(this.invoice.customerId);
 		await invoiceService.makeNewInvoice(this.invoice);
 
 		this.downloadPdf();
@@ -323,17 +324,25 @@ export default class extends Vue {
 		await this.$router.push("/orders");
 	}
 
+	$refs!: {
+		invoice: HTMLElement;
+	};
+
 	downloadPdf() {
-		const pdf = new jsPDF("p", "pt", "a4", true);
+		const pdf = new jsPDF("p", "px", "a4", true);
 
-		const invoice = document.getElementById("invoice");
+		const invoice = document.getElementById("invoice")!;
 
-		const width = this.$refs.invoice.clientWidth;
-		const height = this.$refs.invoice.clientHeight;
+		const width = this.$refs.invoice.clientWidth * 0.55;
+		const height = this.$refs.invoice.clientHeight * 0.55;
 
-		html2canvas(invoice!).then(canvas => {
+		html2canvas(invoice).then(canvas => {
 			const image = canvas.toDataURL("image/png");
-			pdf.addImage(image, "PNG", 0, 0, width * 0.55, heught * 0.55);
+
+			const pdfWidth = pdf.internal.pageSize.getWidth();
+			const pdfHeight = (height * pdfWidth) / width;
+
+			pdf.addImage(image, "PNG", 0, 0, pdfWidth, pdfHeight);
 			pdf.save("invoice");
 		});
 	}
