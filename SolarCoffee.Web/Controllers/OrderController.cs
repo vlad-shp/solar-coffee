@@ -32,8 +32,9 @@ namespace SolarCoffee.Web.Controllers
             _logger.LogInformation("Generating invoice");
 
             var order = OrderMapper.SerializeInvoiceToOrder(invoice);
-            _orderService.GenerateOpenOrder(order);
             order.Customer = _customerService.GetById(invoice.CustomerId);
+            _orderService.GenerateOpenOrder(order);
+
 
             return Ok();
         }

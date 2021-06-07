@@ -1,12 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SolarCoffee.Services.Product;
 using SolarCoffee.Web.Serialization;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using SolarCoffee.Data.Models;
 using SolarCoffee.Web.ViewModels;
+using System.Linq;
 
 namespace SolarCoffee.Web.Controllers
 {

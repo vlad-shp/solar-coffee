@@ -42,7 +42,7 @@ namespace SolarCoffee.Services.Customer
                 {
                     IsSuccess = true,
                     Message = "New customer added",
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     Data = customer
                 };
             }
@@ -52,7 +52,7 @@ namespace SolarCoffee.Services.Customer
                 {
                     IsSuccess = false,
                     Message = e.StackTrace,
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     Data = customer
                 };
             }
@@ -71,7 +71,7 @@ namespace SolarCoffee.Services.Customer
             {
                 return new ServiceResponse<bool>
                 {
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     IsSuccess = false,
                     Message = "Customer to delete not found!",
                     Data = false
@@ -84,7 +84,7 @@ namespace SolarCoffee.Services.Customer
                 _db.SaveChanges();
                 return new ServiceResponse<bool>
                 {
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     IsSuccess = true,
                     Message = "Customer was deleted!",
                     Data = true
@@ -94,7 +94,7 @@ namespace SolarCoffee.Services.Customer
             {
                 return new ServiceResponse<bool>
                 {
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     IsSuccess = false,
                     Message = e.StackTrace,
                     Data = false

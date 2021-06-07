@@ -43,10 +43,10 @@ namespace SolarCoffee.Services.Product
         {
             try
             {
-                
+
                 _db.Products.Add(product);
 
-                
+
 
 
                 var newInventory = new ProductInventory
@@ -66,7 +66,7 @@ namespace SolarCoffee.Services.Product
                 return new ServiceResponse<Data.Models.Product>
                 {
                     Data = product,
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     Message = "Saved new product",
                     IsSuccess = true
                 };
@@ -76,7 +76,7 @@ namespace SolarCoffee.Services.Product
                 return new ServiceResponse<Data.Models.Product>
                 {
                     Data = product,
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     Message = ex.StackTrace,
                     IsSuccess = false
                 };
@@ -100,7 +100,7 @@ namespace SolarCoffee.Services.Product
                 return new ServiceResponse<Data.Models.Product>
                 {
                     Data = product,
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     Message = "Archived Product",
                     IsSuccess = true
                 };
@@ -110,7 +110,7 @@ namespace SolarCoffee.Services.Product
                 return new ServiceResponse<Data.Models.Product>
                 {
                     Data = null,
-                    Time = DateTime.UtcNow,
+                    Time = DateTime.Now,
                     Message = ex.StackTrace,
                     IsSuccess = false
                 };

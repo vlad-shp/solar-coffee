@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SolarCoffee.Services.Inventory;
 using SolarCoffee.Web.Serialization;
 using SolarCoffee.Web.ViewModels;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -74,5 +75,45 @@ namespace SolarCoffee.Web.Controllers
             var inventory = _inventoryService.UpdateUnitsAvailable(id, adjustment);
             return Ok(inventory);
         }
+
+        [HttpGet("/api/inventory/snapshot")]
+        public ActionResult GetSnapshotHistory()
+        {
+            /*
+             * timeline: [1,2,3 ... n]
+             * inventory: [{ id:1, qty:[2,5,221 ... n]}, {id: 2, qty: [2,5,21 .. n]}]
+             */
+
+            _logger.LogInformation("Getting snapshot history");
+
+            try
+            {
+                var snapshotHistory = _inventoryService.GetSnapshotHistory();
+
+                var timelineMarkers = snapshotHistory.Select(t => t.SnapshotTime).Distinct().ToList();
+
+                var snapshots = snapshotHistory.GroupBy(hist => hist.Product, hist => hist.QuantityOnHand,
+                    (key, q) => new ProductInventorySnapshotModel
+                    {
+                        ProductId = key.Id,
+                        QuantityOnHand = q.ToList()
+                    }).OrderBy(hist => hist.ProductId).ToList();
+
+                var viewModel = new SnapshotResponse
+                {
+                    Timeline = timelineMarkers,
+                    ProductInventorySnapshots = snapshots
+                };
+
+                return Ok(viewModel);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error getting snapshot history");
+                _logger.LogError(e.StackTrace);
+                return BadRequest("Error retrieving history");
+            }
+        }
+
     }
 }

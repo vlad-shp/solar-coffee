@@ -48,7 +48,7 @@ namespace SolarCoffee.Services.Order
         public ServiceResponse<bool> GenerateOpenOrder(SalesOrder order)
         {
 
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
 
             _logger.LogInformation("Generating new order");
 
@@ -95,7 +95,7 @@ namespace SolarCoffee.Services.Order
         {
             var order = _db.SalesOrders.Find(id);
 
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
 
             order.UpdatedOn = now;
 

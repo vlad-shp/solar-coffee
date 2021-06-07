@@ -23,7 +23,7 @@ namespace SolarCoffee.Web.Controllers
         }
 
         [HttpPost("/api/customer")]
-        [ProducesResponseType(typeof(Customer),(int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.OK)]
 
         public ActionResult CreateCustomer([FromBody] CustomerModel customer)
         {
