@@ -17,9 +17,9 @@ import { Get, Sync } from "vuex-pathify";
 import { IInventoryTimeline } from "@/types/InventoryGraph";
 import VueApexCharts from "vue-apexcharts";
 import moment from "moment";
-Vue.component("apexchart", VueApexCharts);
+import { ApexOptions } from "apexcharts";
 
-@Component({ name: "InventoryChart", components: {} })
+@Component({ name: "InventoryChart", components: { apexchart: VueApexCharts } })
 export default class InventoryChart extends Vue {
 	@Sync("snapshotTimeline")
 	snapshotTimeline!: IInventoryTimeline;
@@ -27,12 +27,7 @@ export default class InventoryChart extends Vue {
 	@Get("timelineBuilt")
 	timelineBuilt?: boolean;
 
-	get options() {
-		console.log(
-			this.snapshotTimeline.timeline.map(t =>
-				moment(t).format("DD HH:mm:ss")
-			)
-		);
+	get options(): ApexOptions {
 		return {
 			dataLabels: { enabled: false },
 			fill: {
@@ -57,7 +52,6 @@ export default class InventoryChart extends Vue {
 				data: snapshot.quantityOnHand
 			})
 		);
-		console.log(result);
 		return result;
 	}
 }

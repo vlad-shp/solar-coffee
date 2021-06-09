@@ -316,7 +316,6 @@ export default class CreateInvoice extends Vue {
 			updatedOn: new Date()
 		};
 
-		console.log(this.invoice.customerId);
 		await invoiceService.makeNewInvoice(this.invoice);
 
 		this.downloadPdf();
